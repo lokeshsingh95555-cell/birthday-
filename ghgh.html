@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Happy Birthday Madam Jiii (Laddo)! 🎉</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+  body {
+    font-family:'Segoe UI','Trebuchet MS',sans-serif;
+    background:linear-gradient(160deg,#1b0b2e 0%,#3d1057 40%,#6a1b6d 75%,#a3246b 100%);
+    min-height:100vh; color:#fff; text-align:center;
+    overflow-x:hidden;
+  }
+
+  #confetti { position:fixed; inset:0; pointer-events:none; z-index:9; }
+
+  /* balloons */
+  .balloons { position:fixed; inset:0; overflow:hidden; z-index:1; pointer-events:none; }
+  .balloon {
+    position:absolute; bottom:-140px; width:42px; height:54px;
+    border-radius:50% 50% 48% 48%; opacity:.6; animation:rise linear infinite;
+  }
+  .balloon::after{ content:''; position:absolute; top:100%; left:50%;
+    width:1px; height:70px; background:rgba(255,255,255,.3); }
+  @keyframes rise{
+    0%{transform:translateY(0) translateX(0)}
+    50%{transform:translateY(-55vh) translateX(25px)}
+    100%{transform:translateY(-115vh) translateX(-15px)}
+  }
+
+  /* ---------- slide system ---------- */
+  .stage { position:relative; z-index:5; min-height:100vh;
+           display:flex; align-items:center; justify-content:center; padding:26px 18px 100px; }
+
+  .slide {
+    display:none; width:100%; max-width:390px;
+    animation:pop .6s cubic-bezier(.2,.8,.3,1.2);
+  }
+  .slide.on { display:block; }
+  @keyframes pop{ from{opacity:0; transform:translateY(30px) scale(.94)} to{opacity:1; transform:none} }
+
+  .card {
+    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.22);
+    border-radius:26px; padding:20px 18px 24px;
+    backdrop-filter:blur(10px);
+    box-shadow:0 20px 50px rgba(0,0,0,.45);
+  }
+
+  .count {
+    display:inline-block; font-size:12px; letter-spacing:3px; text-transform:uppercase;
+    color:#4a0d3d; background:linear-gradient(90deg,#ffd166,#ff8ab5);
+    padding:6px 16px; border-radius:30px; font-weight:800; margin-bottom:16px;
+  }
+
+  .photo {
+    width:100%; aspect-ratio:3/4; object-fit:cover;
+    border-radius:18px; border:2px solid rgba(255,255,255,.28);
+    box-shadow:0 10px 28px rgba(0,0,0,.4);
+  }
+  .photo.sq { aspect-ratio:1/1; }
+
+  .wtitle { font-size:22px; font-weight:800; color:#ffd166; margin:18px 0 8px; }
+  .wtext  { font-size:16px; line-height:1.75; color:#fff4fc; }
+
+  /* intro slide */
+  .cake { font-size:64px; display:inline-block; animation:bounce 2s ease-in-out infinite; }
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+
+  .small { font-size:14px; letter-spacing:4px; text-transform:uppercase; color:#ffd9f2; margin:10px 0 2px; }
+
+  h1 {
+    font-size:clamp(32px,10vw,54px); line-height:1.05;
+    background:linear-gradient(90deg,#ffe259,#ff8ab5,#8be9ff,#ffe259);
+    background-size:300% 100%; -webkit-background-clip:text; background-clip:text;
+    -webkit-text-fill-color:transparent; animation:shine 6s linear infinite; margin:6px 0;
+  }
+  @keyframes shine{ to{background-position:300% 0} }
+
+  .name {
+    font-size:clamp(24px,8vw,42px); font-weight:800; margin:10px 0 6px;
+    text-shadow:0 0 18px #ff6ec7,0 0 40px #ff6ec7; animation:glow 2.2s ease-in-out infinite alternate;
+  }
+  @keyframes glow{ to{text-shadow:0 0 26px #ffd166,0 0 60px #ff6ec7} }
+
+  .tag { font-size:15px; color:#ffe9fb; opacity:.85; margin:8px 0 4px; }
+
+  /* final slide grid */
+  .grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:16px; }
+  .grid img { width:100%; aspect-ratio:1/1; object-fit:cover;
+    border-radius:14px; border:2px solid rgba(255,255,255,.25); }
+
+  /* buttons + nav */
+  .btn {
+    display:inline-block; margin-top:20px; padding:14px 36px;
+    font-size:17px; font-weight:800; border:none; border-radius:40px; cursor:pointer;
+    color:#4a0d3d; background:linear-gradient(90deg,#ffd166,#ff8ab5);
+    box-shadow:0 10px 26px rgba(255,120,190,.45); transition:transform .2s;
+  }
+  .btn:active{ transform:scale(.94); }
+  .btn.ghost{ background:transparent; color:#ffd9f2; border:1px solid rgba(255,255,255,.35);
+              box-shadow:none; font-weight:600; padding:12px 26px; font-size:15px; }
+
+  .navbar {
+    position:fixed; bottom:0; left:0; right:0; z-index:8;
+    padding:14px 18px 20px; display:flex; align-items:center; justify-content:center; gap:14px;
+    background:linear-gradient(to top,rgba(20,5,35,.9),transparent);
+  }
+  .arrow {
+    width:44px; height:44px; border-radius:50%; border:1px solid rgba(255,255,255,.3);
+    background:rgba(255,255,255,.12); color:#fff; font-size:19px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; transition:.2s;
+  }
+  .arrow:active{ transform:scale(.9); }
+  .arrow[disabled]{ opacity:.3; }
+
+  .dots { display:flex; gap:8px; }
+  .dots span { width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,.35);
+               cursor:pointer; transition:.3s; }
+  .dots span.on { background:#ffd166; transform:scale(1.4); }
+
+  .hint { font-size:12px; color:rgba(255,255,255,.55); margin-top:14px; }
+
+  @media(min-width:700px){ .slide{ max-width:430px; } }
+</style>
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+<div class="balloons" id="balloons"></div>
+
+<div class="stage">
+
+  <!-- ===== INTRO ===== -->
+  <section class="slide on">
+    <div class="card">
+      <div class="cake">🎂</div>
+      <p class="small">Wishing a very special</p>
+      <h1>Happy Birthday</h1>
+      <div class="name">Madam Jiii (Laddo)</div>
+      <p class="tag">🎈 I have 4 wishes for you today 🎈</p>
+      <img class="photo" src="https://www.genspark.ai/api/files/s/H4QG88D3" alt="Laddo">
+      <button class="btn" onclick="go(1)">Open Wish 1 →</button>
+      <p class="hint">swipe left / right to move between wishes</p>
+    </div>
+  </section>
+
+  <!-- ===== WISH 1 ===== -->
+  <section class="slide">
+    <div class="card">
+      <span class="count">Wish 1 of 4</span>
+      <img class="photo" src="https://www.genspark.ai/api/files/s/H4QG88D3" alt="Wish 1">
+      <h3 class="wtitle">💛 Endless Happiness</h3>
+      <p class="wtext">
+        My first wish is that your smile never fades. May every single day of this
+        new year bring you a reason to laugh out loud, and may happiness follow you
+        wherever you go, Laddo.
+      </p>
+      <button class="btn" onclick="go(2)">Next Wish →</button>
+    </div>
+  </section>
+
+  <!-- ===== WISH 2 ===== -->
+  <section class="slide">
+    <div class="card">
+      <span class="count">Wish 2 of 4</span>
+      <img class="photo" src="https://www.genspark.ai/api/files/s/CGwFBwXd" alt="Wish 2">
+      <h3 class="wtitle">🌟 Big Success</h3>
+      <p class="wtext">
+        Second wish — may you achieve every goal you have quietly written in your heart.
+        Your hard work deserves the best results, and this year I hope the whole world
+        sees how brilliant you are.
+      </p>
+      <button class="btn" onclick="go(3)">Next Wish →</button>
+    </div>
+  </section>
+
+  <!-- ===== WISH 3 ===== -->
+  <section class="slide">
+    <div class="card">
+      <span class="count">Wish 3 of 4</span>
+      <img class="photo" src="https://www.genspark.ai/api/files/s/Kc3aNP3V" alt="Wish 3">
+      <h3 class="wtitle">🌸 Health &amp; Peace</h3>
+      <p class="wtext">
+        Third wish is for good health and a peaceful heart. No stress, no worries —
+        only calm days, sound sleep, sweet food and the company of people who
+        truly love you.
+      </p>
+      <button class="btn" onclick="go(4)">Next Wish →</button>
+    </div>
+  </section>
+
+  <!-- ===== WISH 4 ===== -->
+  <section class="slide">
+    <div class="card">
+      <span class="count">Wish 4 of 4</span>
+      <img class="photo" src="https://www.genspark.ai/api/files/s/IkF0K09l" alt="Wish 4">
+      <h3 class="wtitle">✨ Stay Just As You Are</h3>
+      <p class="wtext">
+        And my last wish — never change. Stay this kind, this bright and this
+        wonderfully you. The world is a much better place because you are in it.
+      </p>
+      <button class="btn" onclick="go(5)">See The Surprise 🎁</button>
+    </div>
+  </section>
+
+  <!-- ===== FINAL ===== -->
+  <section class="slide">
+    <div class="card">
+      <div class="cake">🎉</div>
+      <h1>All 4 Wishes<br>Sent!</h1>
+      <div class="name">Madam Jiii (Laddo)</div>
+      <p class="wtext" style="margin-top:10px">
+        Have the sweetest, happiest, most spoiled birthday ever.
+        Eat the biggest slice of cake — you deserve it all! 🍰💫
+      </p>
+      <div class="grid">
+        <img src="https://www.genspark.ai/api/files/s/H4QG88D3" alt="memory 1">
+        <img src="https://www.genspark.ai/api/files/s/CGwFBwXd" alt="memory 2">
+        <img src="https://www.genspark.ai/api/files/s/Kc3aNP3V" alt="memory 3">
+        <img src="https://www.genspark.ai/api/files/s/IkF0K09l" alt="memory 4">
+      </div>
+      <button class="btn" onclick="party()">🎊 More Confetti 🎊</button><br>
+      <button class="btn ghost" onclick="go(0)">↺ Start Again</button>
+    </div>
+  </section>
+
+</div>
+
+<!-- nav bar -->
+<div class="navbar">
+  <button class="arrow" id="prev" onclick="go(cur-1)">❮</button>
+  <div class="dots" id="dots"></div>
+  <button class="arrow" id="next" onclick="go(cur+1)">❯</button>
+</div>
+
+<script>
+/* ---------------- CONFETTI ---------------- */
+const cv=document.getElementById('confetti'), ctx=cv.getContext('2d');
+let W,H,bits=[];
+const COLORS=['#ffd166','#ff6ec7','#8be9ff','#7bed9f','#ffffff','#ff9f43','#c56cf0'];
+function size(){ W=cv.width=innerWidth; H=cv.height=innerHeight; }
+size(); addEventListener('resize',size);
+
+function makeBit(burst){
+  return{
+    x: burst? W/2 : Math.random()*W,
+    y: burst? H*.55 : -20-Math.random()*H,
+    r: 4+Math.random()*6,
+    c: COLORS[Math.floor(Math.random()*COLORS.length)],
+    vx: burst? (Math.random()-.5)*11 : (Math.random()-.5)*1.6,
+    vy: burst? -(4+Math.random()*9) : 1.6+Math.random()*2.8,
+    rot: Math.random()*Math.PI, vr:(Math.random()-.5)*.25,
+    shape: Math.random()>.5?'rect':'circle'
+  };
+}
+for(let i=0;i<80;i++) bits.push(makeBit(false));
+function party(n=140){ for(let i=0;i<n;i++) bits.push(makeBit(true)); }
+
+function loop(){
+  ctx.clearRect(0,0,W,H);
+  for(let i=bits.length-1;i>=0;i--){
+    const b=bits[i];
+    b.vy+=.045; b.x+=b.vx; b.y+=b.vy; b.rot+=b.vr;
+    ctx.save(); ctx.translate(b.x,b.y); ctx.rotate(b.rot); ctx.fillStyle=b.c;
+    if(b.shape==='rect') ctx.fillRect(-b.r/2,-b.r,b.r,b.r*2);
+    else { ctx.beginPath(); ctx.arc(0,0,b.r*.6,0,7); ctx.fill(); }
+    ctx.restore();
+    if(b.y>H+40){ if(bits.length>80) bits.splice(i,1); else Object.assign(b,makeBit(false)); }
+  }
+  requestAnimationFrame(loop);
+}
+loop();
+setTimeout(()=>party(),500); setTimeout(()=>party(),1600);
+
+/* ---------------- BALLOONS ---------------- */
+const bc=['#ff6ec7','#ffd166','#8be9ff','#7bed9f','#c56cf0','#ff9f43'];
+const bWrap=document.getElementById('balloons');
+for(let i=0;i<9;i++){
+  const b=document.createElement('div'); b.className='balloon';
+  b.style.left=Math.random()*95+'%';
+  b.style.background=bc[i%bc.length];
+  b.style.animationDuration=(11+Math.random()*9)+'s';
+  b.style.animationDelay=(Math.random()*10)+'s';
+  const s=.7+Math.random()*.8;
+  b.style.width=42*s+'px'; b.style.height=54*s+'px';
+  bWrap.appendChild(b);
+}
+
+/* ---------------- SLIDES ---------------- */
+const slides=document.querySelectorAll('.slide');
+const dotBox=document.getElementById('dots');
+let cur=0;
+
+slides.forEach((_,i)=>{
+  const d=document.createElement('span');
+  if(i===0) d.className='on';
+  d.onclick=()=>go(i);
+  dotBox.appendChild(d);
+});
+const dots=dotBox.children;
+
+function go(n){
+  if(n<0||n>=slides.length) return;
+  slides[cur].classList.remove('on');
+  dots[cur].classList.remove('on');
+  cur=n;
+  slides[cur].classList.add('on');
+  dots[cur].classList.add('on');
+  document.getElementById('prev').disabled = cur===0;
+  document.getElementById('next').disabled = cur===slides.length-1;
+  scrollTo({top:0,behavior:'smooth'});
+  party(cur===slides.length-1?200:60);
+}
+go(0);
+
+/* swipe */
+let sx=0, sy=0;
+addEventListener('touchstart',e=>{ sx=e.touches[0].clientX; sy=e.touches[0].clientY; },{passive:true});
+addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy;
+  if(Math.abs(dx)>50 && Math.abs(dx)>Math.abs(dy)) go(cur + (dx<0?1:-1));
+},{passive:true});
+
+/* keyboard */
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight') go(cur+1);
+  if(e.key==='ArrowLeft') go(cur-1);
+});
+</script>
+</body>
+</html>
